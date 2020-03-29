@@ -12,24 +12,27 @@ spring:
       ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8083/auth/realms/baeldung
+          jwk-set-uri: http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/certs
+      client:
+        client-id:
+        client-secret:
+      resource:
+        id:
+        tokenType:
+        serviceId:
+        userInfoUri:
+        preferTokenInfo: false
 logging:
   level:
     org:
       hibernate:
         type: trace
-security:
-  oauth2:
-    client:
-      client-id:
-      client-secret:
-    resource:
-      id:
-      tokenType:
-      serviceId:
-      userInfoUri:
-      preferTokenInfo: false
-    sso:
-      loginPath=/login
+
 #spring.datasource.url=jdbc:mysql://localhost:3306/dummyfaces?createDatabaseIfNotExist=true&autoReconnect=true
 #spring.datasource.username=root
 #spring.datasource.password=root

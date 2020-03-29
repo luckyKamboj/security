@@ -1,5 +1,6 @@
 package com.tech.kamboj.service;
 
+import com.tech.kamboj.dtos.UserDto;
 import com.tech.kamboj.entities.User;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface UserService {
 
     List<User> findAllUsers();
 
-    User findUserById(Long id, User user);
+    UserDto findUserById(Long id, UserDto user);
 
     void deleteUserById(Long id);
 

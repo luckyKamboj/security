@@ -1,10 +1,12 @@
 package com.tech.kamboj.service;
 
 import com.tech.kamboj.common.DozerMapper;
+import com.tech.kamboj.convertors.Converter;
 import com.tech.kamboj.dao.UserRepository;
+import com.tech.kamboj.dtos.UserDto;
 import com.tech.kamboj.entities.User;
 import com.tech.kamboj.exception.UserNotFoundException;
-import com.tech.kamboj.request.UserRequest;
+import com.tech.kamboj.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,17 +39,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(Long id, UserRequest userRequest) {
-        User data = DozerMapper.map(userRequest.getUserDto(), User.class);
-        return userRepository.findById(id).map(record -> {
-            record.setAge(data.getAge());
-            record.setActive(data.isActive());
-            record.setAccountNotExpired(data.isAccountNotExpired());
-            record.setEmail(data.getEmail());
-            record.setUsername(data.getUsername());
-            record.setUserId(data.getUserId());
-            User updated = userRepository.save(record);
-            return updated;
-        }).orElseThrow(() -> new UserNotFoundException("User not found."));
+    public UserDto findUserById(Long id, UserDto data) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found."));
+        return DozerMapper.map(userRepository.save(Converter.userConverter(data, user)), UserDto.class);
+
     }
 }
